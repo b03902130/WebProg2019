@@ -1,8 +1,90 @@
 body {
-    background-color: cornsilk;
+    margin: 0 auto;
+    max-width: 500px;
+    padding-left: 15px;
+    font-family: 'Karla', sans-serif;
+    font-size: 0.8em;
+    background-color: rgb(255, 248, 239);
+}
+
+h1, h2, h3 {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
 }
 
 img {
-    width: 90%;
-    display: block;
+    width: 100%;
+}
+
+p {
+    margin: 2em auto;
+}
+
+blockquote {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 1.3em;
+}
+
+.crop {
+    margin: 10px;
+    width: 80%;
+    max-width: 400px;
+    padding: 12px;
+    background-clip: padding-box;
+    background-color: white;
+    box-shadow: inset 0 0 12px #a7a7a7;
+}
+
+div.polaroid {
+    width: 85%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 25px;
+    margin-left: 10px;
+  }
+
+div.container {
+    text-align: center;
+    padding: 10px 20px;
+}
+
+table {
+    width: 85%;
+    /* background-color: rgb(255, 234, 208); */
+    margin: 2em 10px;
+    text-align: center;
+    border-spacing: 5px;
+}
+
+table caption {
+    margin: 5px auto;
+}
+
+table th {
+    height: 4em;
+    background-color: rgba(187, 238, 221, 0.52);
+    background-clip: padding-box;
+}
+
+table td {
+    height: 3em;
+    background-color: rgba(255, 229, 187, 0.548);
+    background-clip: padding-box;
+}
+
+table caption {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.2em;
+}
+
+ul, ol {
+    margin: 2em 0;
+}
+
+li {
+    padding: 0 10px;
 }

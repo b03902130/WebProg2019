@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>Practice01</title>
         <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Frank+Ruhl+Libre:900|Josefin+Sans:700|Karla|Montserrat:400,800,900|Merriweather:900|Josefin+Sans:700i|Raleway:900" rel="stylesheet">
     </head>
 
     <body>
@@ -23,19 +24,25 @@
 
         <p>You can also add quotes! For instance formal american president once said:</p>
         
-        <blockquote>
-            Change will not come if we wait for some other person or some other
-            time. We are the ones we've been waiting for. We are the change that
-            we seek.
-        </blockquote>
+        <div class="crop">
+            <blockquote>
+                Change will not come if we wait for some other person or some other
+                time. We are the ones we've been waiting for. We are the change that
+                we seek.
+            </blockquote>
+        </div>
         
         <!-- not to mention how easy commenting is in html -->
 
-        <a href="https://www.youtube.com/watch?v=ZbPHu1N16VM">This is a link tag which u can click to navigate to a good song.</a>
-        <a href="https://images.unsplash.com/photo-1532386236358-a33d8a9434e3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80">You can wrap anything you want in a link tag; here's an image for example.</a>
-        <img src="https://images.unsplash.com/photo-1532386236358-a33d8a9434e3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80">
+        <p><a href="https://www.youtube.com/watch?v=ZbPHu1N16VM">This is a link tag which u can click to navigate to a good song.</a></p>
+        <div class="polaroid">
+            <img src="https://images.unsplash.com/photo-1532386236358-a33d8a9434e3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80">
+            <div class="container">
+                <p><a href="https://images.unsplash.com/photo-1532386236358-a33d8a9434e3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80">You can wrap anything you want in a link tag; here's an image for example.</a></p>
+            </div>
+        </div>
 
-        <input type="text" placeholder="here's an input field">
+        <input style="margin-left: 10px" type="text" placeholder="here's an input field">
         <table>
             <caption>This is a table</caption>
             <tr>
@@ -62,12 +69,11 @@
             <li>Ordered Lists!</li>
             <li>As you can see it is marked with numbers.</li>
         </ol>
-
-        <h1>Blocks and Inline Elements</h1>
+        <h1 style="margin-top: 2em">Blocks and Inline Elements</h1>
         <div><p>A &lt;div&gt; is a block-level element, which means that it will always start up a new line 
         and take up the full width available.</p></div>
         <span>And a &lt;span&gt; tag is inline, meaning span that it only takes up as much width as necessary.</span>
 
-        <h1>Now head over to the version with css and see how powerful css is!</h1>
+        <h1 style="margin-top: 2em">Now head over to the version with css and see how powerful css is!</h1>
     </body>
 </html>
