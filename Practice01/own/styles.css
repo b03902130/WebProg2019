@@ -1,5 +1,5 @@
 html {
-    background-image: url("linedpaper.png");
+    background-image: url("https://i.imgur.com/p0KvEzS.png");
 }
 
 body {
@@ -46,7 +46,7 @@ a:link, a:visited {
 }
 
 a:hover, a:active {
-    color: rgb(255, 145, 200);
+    color: rgb(255, 155, 205);
 }
 
 blockquote {
@@ -61,7 +61,7 @@ blockquote {
     padding-top: 5%;
     padding-bottom: 5%;
     background-clip: padding-box;
-    background-image: url("linedpaper.png");
+    background-image: url("https://i.imgur.com/p0KvEzS.png");
     box-shadow: inset 0 0 12px #a7a7a7;
     border-radius: 4px;
 }
@@ -87,7 +87,7 @@ input {
     border-radius: 4px;
     font-size: 1em;
     background-color: white;
-    background-image: url('icon.svg');
+    background-image: url('https://i.imgur.com/OtvTovr.png');
     background-size: 1.9em;
     background-position: 3px 0px;
     background-repeat: no-repeat;
