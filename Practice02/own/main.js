@@ -12,48 +12,70 @@ const urls = [
 ];
 const imgnum = urls.length;
 
-function clickHandler(e) {
-    const target = e.target;
-    if (target.id === "display") {
-        console.log("pop up image");
-    }
-    else if (["back", "next"].indexOf(target.id) >= 0) {
-        let index = parseInt(image.dataset.id);
-        if (target.id === "back") {
-            next.className = "";
-            next.disabled = false;
-            if (index > 1) {
-                index -= 1;
-                if (index === 1) {
-                    target.className = "disabled";
-                    target.disabled = true;
-                }
+function changeHandler(e) {
+    const target = e.currentTarget;
+    let index = parseInt(image.dataset.id);
+    if (target.id === "back") {
+        next.disabled = false;
+        if (index > 1) {
+            index -= 1;
+            if (index === 1) {
+                target.disabled = true;
             }
         }
-        else if (target.id === "next") {
-            back.className = "";
-            back.disabled = false;
-            if (index < imgnum) {
-                index += 1;
-                if (index === imgnum) {
-                    target.className = "disabled";
-                    target.disabled = true;
-                }
+    }
+    else if (target.id === "next") {
+        back.disabled = false;
+        if (index < imgnum) {
+            index += 1;
+            if (index === imgnum) {
+                target.disabled = true;
             }
         }
-        image.src = "images/loading.gif";
-        let downloading = new Image();
-        downloading.onload = function(){
-            image.src = this.src;
-        };
-        indexString = index.toString();
-        image.dataset.id = indexString;
-        const path = urls[index - 1];
-        downloading.src = path;
-        source.textContent = path;
     }
+    // push loading image and message
+    image.src = "images/loading.gif";
+    image.dataset.id = "0";
+    source.textContent = "Loading...";
+
+    indexString = index.toString();
+    const path = urls[index - 1];
+    let downloading = new Image();
+    downloading['path'] = path;
+    downloading['id'] = indexString;
+    downloading['buttonState'] = [back.disabled, next.disabled];
+    back.disabled = true;
+    next.disabled = true;
+    back.classList.add("disabled");
+    next.classList.add("disabled");
+
+    // download image to a tmp image
+    let downloadHandler = function () {
+        image.src = this.src;
+        image.dataset.id = this.id;
+        source.textContent = this.path;
+        back.disabled = this.buttonState[0];
+        next.disabled = this.buttonState[1];
+        if (!back.disabled) {
+            back.classList.remove("disabled");
+        }
+        if (!next.disabled) {
+            next.classList.remove("disabled");
+        }
+    }
+    downloadHandler = downloadHandler.bind(downloading);
+    if (Math.random() < 0.5) {
+        // usually we only need this to handle download
+        downloading.onload = downloadHandler;
+    }
+    else {
+        // this timeout is not necessary and only for demo
+        // to show that the code will run loading.gif on
+        // long latency download
+        setTimeout(downloadHandler, 500);
+    }
+    downloading.src = path;
 }
 
-image.addEventListener("click", clickHandler);
-back.addEventListener("click", clickHandler);
-next.addEventListener("click", clickHandler);
+back.addEventListener("click", changeHandler);
+next.addEventListener("click", changeHandler);
