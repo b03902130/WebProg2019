@@ -46,8 +46,8 @@ function changeHandler(e) {
     downloading['buttonState'] = [back.disabled, next.disabled];
     back.disabled = true;
     next.disabled = true;
-    back.classList.add("disabled");
-    next.classList.add("disabled");
+    back.children[0].classList.add("disabled");
+    next.children[0].classList.add("disabled");
 
     // download image to a tmp image
     let downloadHandler = function () {
@@ -57,10 +57,10 @@ function changeHandler(e) {
         back.disabled = this.buttonState[0];
         next.disabled = this.buttonState[1];
         if (!back.disabled) {
-            back.classList.remove("disabled");
+            back.children[0].classList.remove("disabled");
         }
         if (!next.disabled) {
-            next.classList.remove("disabled");
+            next.children[0].classList.remove("disabled");
         }
     }
     downloadHandler = downloadHandler.bind(downloading);
