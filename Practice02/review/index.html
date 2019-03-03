@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Image Viewer</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+    </head>
+    <body>
+        <div calss="image-viewer__container">  
+            <div class="image-viewer__title">
+                Image Viewer
+            </div>
+
+            <div class="image-viewer__main">
+                <div class="image-viewer__side-area" style="background-color: rgb(230, 3, 18);">
+                    <span class="disabled image-viewer__button" id="left_button">
+                        <img src="./images/back.png">
+                    </span> 
+                </div>
+                
+                <span class="image-viewer__display">
+                        <a id="link" href="https://www.coolpix.com.tw/home">
+                            <figure class="wp-caption">
+                                <img class="demo" id="photo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Nikon_Logo.svg/1024px-Nikon_Logo.svg.png" alt="Nikon" />
+                                <figcaption class="wp-caption-text" id="figcaption">Nikon</figcaption>
+                            </figure>
+                        </a>
+                </span>
+                
+                <div class="image-viewer__side-area">
+                    <span class="image-viewer__button" id="right_button">
+                        <img src="./images/next.png">
+                    </span>
+                </div> 
+            </div>
+
+            <div id="image_caption">
+                Nikon Corporation is a Japanese multinational corporation headquartered in Tokyo, Japan, specializing in optics and imaging products.
+            </div>
+        <script src = "./main.js"></script>
+    </body>
+</html>
+
