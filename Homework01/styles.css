@@ -169,6 +169,7 @@ input[type='checkbox'] {
     border: 1px solid transparent;
     border-radius: 5px;
     cursor: pointer;
+    background: transparent;
 }
 
 .todo-app__view-buttons button:focus {
@@ -186,6 +187,7 @@ input[type='checkbox'] {
     font-size: 0.8em;
     font-weight: inherit;
     cursor: pointer;
+    background: transparent;
 }
 
 .todo-app__clean button:focus {
