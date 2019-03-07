@@ -9,7 +9,7 @@ function List() {
     this.items = {};
     this.left = 0;
     this.searchMode = false;
-    
+
     this.sortMode = "Time";
     this.modes = ["Time", "TimeInv", "Lexico", "LexicoInv"];
 
@@ -141,11 +141,16 @@ search.addEventListener("click", (e) => {
 });
 
 // handle sorting mode toggle
-sort.addEventListener("click", (e) => {
-    let new_mode = list.modes[(list.modes.indexOf(list.sortMode) + 1) % list.modes.length];
-    list.sortMode = new_mode;
-    sort.innerHTML = "Sort / " + new_mode;
-    list.render();
+["click", "contextmenu"].forEach((event) => {
+    sort.addEventListener(event, (e) => {
+        e.preventDefault();
+        let shift = e.type === "click" ? 1 : -1;
+        let length = list.modes.length;
+        let new_mode = list.modes[(list.modes.indexOf(list.sortMode) + shift + length) % length];
+        list.sortMode = new_mode;
+        sort.innerHTML = "Sort / " + new_mode;
+        list.render();
+    });
 });
 
 // handle view filter
