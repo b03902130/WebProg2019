@@ -50,7 +50,7 @@ function List() {
         img.setAttribute("id", this.idcounter.toString());
         img.setAttribute("src", "./img/x.png");
         img.setAttribute("class", "todo-app__item-x");
-        img.addEventListener("click", (e) => { this.remove(e.target.id); });
+        img.addEventListener("click", (e) => { this.remove([e.target.id]); });
 
         checkbox.appendChild(input);
         checkbox.appendChild(label);
@@ -71,11 +71,13 @@ function List() {
         this.left += 1;
         this.render();
     };
-    this.remove = (id) => {
-        if (!this.items[id].completed) {
-            this.left -= 1;
-        }
-        delete this.items[id];
+    this.remove = (ids) => {
+        ids.forEach((id) => {
+            if (!this.items[id].completed) {
+                this.left -= 1;
+            }
+            delete this.items[id];
+        });
         this.render();
     };
     this.click = (id) => {
@@ -123,5 +125,5 @@ let clearCompleted = todo_footer.children[2].children[0];
 clearCompleted.addEventListener("click", (e) => {
     let keys = Object.keys(list.items);
     keys = keys.filter(list.view["Completed"]);
-    keys.forEach((key) => { list.remove(key) });
+    list.remove(keys);
 });
