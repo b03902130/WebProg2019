@@ -62,9 +62,17 @@ function List() {
         let label = document.createElement("label");
         label.setAttribute("for", this.idcounter.toString());
 
-        let detail = document.createElement("h1");
+        let detail = document.createElement("input");
+        detail.value = text;
+        detail.setAttribute("type", "text");
         detail.setAttribute("class", "todo-app__item-detail");
-        detail.innerHTML = text;
+        detail.setAttribute("readOnly", true);
+        detail.addEventListener("dblclick", (e) => { e.target.readOnly = false; });
+        detail.addEventListener("focusout", (e) => { e.target.readOnly = true; });
+        detail.addEventListener("keyup", (e) => { if (e.keyCode === 13) { 
+            e.target.readOnly = true; 
+            e.target.blur();
+        }});
 
         let img = document.createElement("img");
         img.setAttribute("id", this.idcounter.toString());
