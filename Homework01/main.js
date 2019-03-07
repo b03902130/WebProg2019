@@ -1,11 +1,14 @@
 const todo_list = document.getElementById("todo-list");
 const todo_footer = document.getElementById("todo-footer");
 const todo_input = document.getElementById("todo-input");
+const search = document.getElementById("search");
+const clear = document.getElementById("clear");
 
 function List() {
     this.items = {};
     this.left = 0;
     this.renderMode = "All";
+    this.searchMode = false;
 
     this.view = {
         All: id => true,
@@ -16,6 +19,9 @@ function List() {
     this.render = () => {
         let keys = Object.keys(this.items);
         keys = keys.filter(this.view[this.renderMode]);
+        if (this.searchMode) {
+            keys = keys.filter(key => this.items[key].text.innerHTML.match(todo_input.value) !== null);
+        }
         let nodes = keys.map(key => this.items[key].domNode);
 
         // render DOM list node
@@ -60,13 +66,14 @@ function List() {
 
         let id = this.idcounter;
         this.idcounter += 1;
-        return [id, li];
+        return [id, li, detail];
     }
     this.push = (text) => {
-        let [id, newNode] = this.createNewNode(text);
+        let [id, newNode, detail] = this.createNewNode(text);
         this.items[id.toString()] = {
             completed: false,
-            domNode: newNode
+            domNode: newNode,
+            text: detail
         };
         this.left += 1;
         this.render();
@@ -102,10 +109,24 @@ function List() {
 let list = new List();
 
 todo_input.addEventListener("keyup", (e) => {
-    if (e.keyCode === 13 && todo_input.value !== "") {
+    if (e.keyCode === 13 && !list.searchMode && todo_input.value !== "") {
         list.push(todo_input.value);
         todo_input.value = "";
     }
+    else if (list.searchMode) {
+        list.render();
+    }
+});
+
+search.addEventListener("click", (e) => {
+    if (list.searchMode) {
+        search.style.borderColor = "transparent";
+    }
+    else {
+        search.style.borderColor = "rgb(2, 160, 2)";
+    }
+    list.searchMode = !list.searchMode;
+    list.render();
 });
 
 let views = Array.prototype.slice.call(todo_footer.children[1].children);
@@ -121,8 +142,7 @@ views.forEach((button) => {
 });
 views[0].style.borderColor = "gray";
 
-let clearCompleted = todo_footer.children[2].children[0];
-clearCompleted.addEventListener("click", (e) => {
+clear.addEventListener("click", (e) => {
     let keys = Object.keys(list.items);
     keys = keys.filter(list.view["Completed"]);
     list.remove(keys);
