@@ -3,13 +3,17 @@ const todo_footer = document.getElementById("todo-footer");
 const todo_input = document.getElementById("todo-input");
 const search = document.getElementById("search");
 const clear = document.getElementById("clear");
+const sort = document.getElementById("sort");
 
 function List() {
     this.items = {};
     this.left = 0;
-    this.renderMode = "All";
     this.searchMode = false;
+    
+    this.sortMode = "Time";
+    this.modes = ["Time", "TimeInv", "Lexico", "LexicoInv"];
 
+    this.renderMode = "All";
     this.view = {
         All: id => true,
         Active: id => !this.items[id].completed,
@@ -22,11 +26,21 @@ function List() {
         if (this.searchMode) {
             keys = keys.filter(key => this.items[key].text.innerHTML.match(todo_input.value) !== null);
         }
+        if (this.sortMode.match("Lexico") !== null) {
+            keys = keys.sort((a, b) => {
+                a = this.items[a].text.innerHTML;
+                b = this.items[b].text.innerHTML;
+                if (a < b) { return this.sortMode === "Lexico" ? 1 : -1; }
+                else if (a > b) { return this.sortMode === "Lexico" ? -1 : 1; }
+                return 0;
+            });
+        }
+        if (this.sortMode === "TimeInv") { keys = keys.reverse(); }
         let nodes = keys.map(key => this.items[key].domNode);
 
         // render DOM list node
         todo_list.innerHTML = "";
-        nodes.forEach((node) => { todo_list.appendChild(node) });
+        nodes.forEach((node) => { todo_list.prepend(node) });
 
         // render left active
         todo_footer.children[0].textContent = this.left.toString() + " left";
@@ -108,6 +122,7 @@ function List() {
 }
 let list = new List();
 
+// handle keystrokes
 todo_input.addEventListener("keyup", (e) => {
     if (e.keyCode === 13 && !list.searchMode && todo_input.value !== "") {
         list.push(todo_input.value);
@@ -118,17 +133,22 @@ todo_input.addEventListener("keyup", (e) => {
     }
 });
 
+// handle search mode click
 search.addEventListener("click", (e) => {
-    if (list.searchMode) {
-        search.style.borderColor = "transparent";
-    }
-    else {
-        search.style.borderColor = "rgb(2, 160, 2)";
-    }
+    search.style.borderColor = list.searchMode ? "transparent" : "rgb(2, 160, 2)";
     list.searchMode = !list.searchMode;
     list.render();
 });
 
+// handle sorting mode toggle
+sort.addEventListener("click", (e) => {
+    let new_mode = list.modes[(list.modes.indexOf(list.sortMode) + 1) % list.modes.length];
+    list.sortMode = new_mode;
+    sort.innerHTML = "Sort / " + new_mode;
+    list.render();
+});
+
+// handle view filter
 let views = Array.prototype.slice.call(todo_footer.children[1].children);
 function viewHandler(e) {
     let button = e.target;
@@ -140,8 +160,10 @@ function viewHandler(e) {
 views.forEach((button) => {
     button.addEventListener("click", viewHandler);
 });
+// initialize view to All
 views[0].style.borderColor = "gray";
 
+// handle clear completed
 clear.addEventListener("click", (e) => {
     let keys = Object.keys(list.items);
     keys = keys.filter(list.view["Completed"]);
