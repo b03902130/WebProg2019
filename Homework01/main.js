@@ -150,6 +150,7 @@ todo_input.addEventListener("keyup", (e) => {
 // handle search mode click
 search.addEventListener("click", (e) => {
     search.style.borderColor = list.searchMode ? "transparent" : "rgb(2, 160, 2)";
+    search.style.backgroundColor = list.searchMode ? "transparent" : "rgba(2, 160, 2, 0.1)";
     list.searchMode = !list.searchMode;
     list.render();
     todo_input.focus();
