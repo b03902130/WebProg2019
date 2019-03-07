@@ -24,12 +24,12 @@ function List() {
         let keys = Object.keys(this.items);
         keys = keys.filter(this.view[this.renderMode]);
         if (this.searchMode) {
-            keys = keys.filter(key => this.items[key].text.innerHTML.match(todo_input.value) !== null);
+            keys = keys.filter(key => this.items[key].text.value.match(todo_input.value) !== null);
         }
         if (this.sortMode.match("Lexico") !== null) {
             keys = keys.sort((a, b) => {
-                a = this.items[a].text.innerHTML;
-                b = this.items[b].text.innerHTML;
+                a = this.items[a].text.value;
+                b = this.items[b].text.value;
                 if (a < b) { return this.sortMode === "Lexico" ? 1 : -1; }
                 else if (a > b) { return this.sortMode === "Lexico" ? -1 : 1; }
                 return 0;
@@ -68,11 +68,17 @@ function List() {
         detail.setAttribute("class", "todo-app__item-detail");
         detail.setAttribute("readOnly", true);
         detail.addEventListener("dblclick", (e) => { e.target.readOnly = false; });
-        detail.addEventListener("focusout", (e) => { e.target.readOnly = true; });
-        detail.addEventListener("keyup", (e) => { if (e.keyCode === 13) { 
-            e.target.readOnly = true; 
-            e.target.blur();
-        }});
+        detail.addEventListener("focusout", (e) => {
+            e.target.readOnly = true;
+            this.render();
+        });
+        detail.addEventListener("keyup", (e) => {
+            if (e.keyCode === 13 || e.keyCode === 27) {
+                e.target.readOnly = true;
+                e.target.blur();
+                this.render();
+            }
+        });
 
         let img = document.createElement("img");
         img.setAttribute("id", this.idcounter.toString());
@@ -146,6 +152,7 @@ search.addEventListener("click", (e) => {
     search.style.borderColor = list.searchMode ? "transparent" : "rgb(2, 160, 2)";
     list.searchMode = !list.searchMode;
     list.render();
+    todo_input.focus();
 });
 
 // handle sorting mode toggle

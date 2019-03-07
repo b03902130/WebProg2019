@@ -125,11 +125,20 @@ input[type='checkbox'] {
 }
 
 .todo-app__item-detail {
+    padding: 0 10px;
     font-weight: 300;
     overflow-wrap: break-word;
-    width: 90%;
-    transition: opacity 0.3s;
-    height: 100%;
+    width: 80%;
+    transition: all 0.3s;
+    height: 1.8em;
+    font-size: 20px;
+    border: transparent 2px solid;
+    border-radius: 5px;
+    outline: none;
+}
+
+.todo-app__item-detail:not(:read-only) {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .todo-app__footer {
