@@ -52,7 +52,7 @@ function List() {
         li.setAttribute("class", "todo-app__item")
 
         let checkbox = document.createElement("div");
-        checkbox.setAttribute("class", "todo-app__checkbox")
+        checkbox.setAttribute("class", "todo-app__checkbox");
 
         let input = document.createElement("input");
         input.setAttribute("type", "checkbox");
@@ -80,6 +80,12 @@ function List() {
             }
         });
 
+        let star = document.createElement("img");
+        star.setAttribute("id", this.idcounter.toString());
+        star.setAttribute("src", "./img/star-red.png");
+        star.setAttribute("class", "todo-app__item-x");
+        // img.addEventListener("click", (e) => { this.remove([e.target.id]); });
+
         let img = document.createElement("img");
         img.setAttribute("id", this.idcounter.toString());
         img.setAttribute("src", "./img/x.png");
@@ -90,6 +96,7 @@ function List() {
         checkbox.appendChild(label);
         li.appendChild(checkbox);
         li.appendChild(detail);
+        li.appendChild(star);
         li.appendChild(img);
 
         let id = this.idcounter;
@@ -99,6 +106,7 @@ function List() {
     this.push = (text) => {
         let [id, newNode, detail] = this.createNewNode(text);
         this.items[id.toString()] = {
+            pinned: false,
             completed: false,
             domNode: newNode,
             text: detail

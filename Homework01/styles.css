@@ -222,21 +222,18 @@ input[type='checkbox'] {
 }
 
 .todo-app__item-x {
-    display: none;
+    width: 4%;
+    margin: 5px;
+    opacity: 0;
+    transition: all 0.3s;
 }
 
 .todo-app__item:hover .todo-app__item-x {
-    display: inline;
-    position: absolute;
-    max-width: 20px;
-    max-height: 20px;
-    right: 20px;
+    opacity: 1;
 }
 
 .todo-app__item:hover .todo-app__item-x:hover {
-    max-width: 25px;
-    max-height: 25px;
-    right: 17.5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #search {
