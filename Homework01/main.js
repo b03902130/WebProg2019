@@ -26,21 +26,27 @@ function List() {
         if (this.searchMode) {
             keys = keys.filter(key => this.items[key].text.value.match(todo_input.value) !== null);
         }
-        if (this.sortMode.match("Lexico") !== null) {
-            keys = keys.sort((a, b) => {
-                a = this.items[a].text.value;
-                b = this.items[b].text.value;
-                if (a < b) { return this.sortMode === "Lexico" ? 1 : -1; }
-                else if (a > b) { return this.sortMode === "Lexico" ? -1 : 1; }
-                return 0;
-            });
-        }
-        if (this.sortMode === "TimeInv") { keys = keys.reverse(); }
-        let nodes = keys.map(key => this.items[key].domNode);
 
-        // render DOM list node
+        keys_pinned = keys.filter(key => this.items[key].pinned);
+        keys_normal = keys.filter(key => !this.items[key].pinned);
+
         todo_list.innerHTML = "";
-        nodes.forEach((node) => { todo_list.prepend(node) });
+        [keys_normal, keys_pinned].forEach((keys) => {
+            if (this.sortMode.match("Lexico") !== null) {
+                keys = keys.sort((a, b) => {
+                    a = this.items[a].text.value;
+                    b = this.items[b].text.value;
+                    if (a < b) { return this.sortMode === "Lexico" ? 1 : -1; }
+                    else if (a > b) { return this.sortMode === "Lexico" ? -1 : 1; }
+                    return 0;
+                });
+            }
+            if (this.sortMode === "TimeInv") { keys = keys.reverse(); }
+            let nodes = keys.map(key => this.items[key].domNode);
+
+            // render DOM list node
+            nodes.forEach((node) => { todo_list.prepend(node) });
+        });
 
         // render left active
         todo_footer.children[0].textContent = this.left.toString() + " left";
@@ -64,6 +70,7 @@ function List() {
 
         let detail = document.createElement("input");
         detail.value = text;
+        detail.dataset["pinned"] = false;
         detail.setAttribute("type", "text");
         detail.setAttribute("class", "todo-app__item-detail");
         detail.setAttribute("readOnly", true);
@@ -84,8 +91,12 @@ function List() {
         star.setAttribute("id", this.idcounter.toString());
         star.setAttribute("src", "./img/star-red.png");
         star.setAttribute("class", "todo-app__item-x");
-        // img.addEventListener("click", (e) => { this.remove([e.target.id]); });
-
+        star.addEventListener("click", (e) => {
+            let item = this.items[e.target.id];
+            item.text.dataset["pinned"] = !item.pinned;
+            item.pinned = !item.pinned;
+            this.render();
+        });
         let img = document.createElement("img");
         img.setAttribute("id", this.idcounter.toString());
         img.setAttribute("src", "./img/x.png");
@@ -125,20 +136,10 @@ function List() {
     };
     this.click = (id) => {
         let item = this.items[id];
-        let checkbox = item.domNode.children[0].children[0];
-        let detail = item.domNode.children[1];
-        if (checkbox.checked) {
-            detail.style.opacity = 0.5;
-            detail.style.textDecoration = "line-through";
-            this.left -= 1;
-            item.completed = true;
-        }
-        else {
-            detail.style.opacity = 1;
-            detail.style.textDecoration = "none";
-            this.left += 1;
-            item.completed = false;
-        }
+        item.completed = !item.completed;
+        let shift = item.completed ? -1 : 1;
+        this.left += shift;
+        item.text.dataset.completed = item.completed;
         this.render();
     }
 }
@@ -157,9 +158,18 @@ todo_input.addEventListener("keyup", (e) => {
 
 // handle search mode click
 search.addEventListener("click", (e) => {
-    search.style.borderColor = list.searchMode ? "transparent" : "rgb(2, 160, 2)";
-    search.style.backgroundColor = list.searchMode ? "transparent" : "rgba(2, 160, 2, 0.1)";
     list.searchMode = !list.searchMode;
+    if (list.searchMode) {
+        search.style.borderColor = "rgb(2, 160, 2)";
+        search.style.backgroundColor = "rgba(2, 160, 2, 0.1)";
+        todo_input.placeholder = "What do you want to search?";
+    }
+    else {
+        search.style.borderColor = "transparent";
+        search.style.backgroundColor = "transparent";
+        todo_input.placeholder = "What needs to be done?";
+    }
+    
     list.render();
     todo_input.focus();
 });
