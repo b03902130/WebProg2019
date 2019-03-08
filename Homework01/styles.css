@@ -92,6 +92,7 @@ input[type='checkbox'] {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.089);
     border-top: 0;
+    padding: 0 10px 0 0;
 }
 
 .todo-app__checkbox {
@@ -126,6 +127,7 @@ input[type='checkbox'] {
 
 .todo-app__item-detail {
     padding: 0 10px;
+    margin: 0 10px 0 0;
     font-weight: 300;
     overflow-wrap: break-word;
     width: 80%;
@@ -222,10 +224,12 @@ input[type='checkbox'] {
 }
 
 .todo-app__item-x {
-    width: 4%;
-    margin: 5px;
+    padding: 5px;
+    width: 5.5%;
+    margin: 3px;
     opacity: 0;
     transition: all 0.3s;
+    border-radius: 50%;
 }
 
 .todo-app__item:hover .todo-app__item-x {
