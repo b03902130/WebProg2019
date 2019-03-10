@@ -10,8 +10,8 @@ function List() {
     this.left = 0;
     this.searchMode = false;
 
-    this.sortMode = "Time";
-    this.modes = ["Time", "TimeInv", "Lexico", "LexicoInv"];
+    this.sortMode = "Latest";
+    this.modes = ["Latest", "Oldest", "a - Z", "Z - a"];
 
     this.renderMode = "All";
     this.view = {
@@ -32,16 +32,15 @@ function List() {
 
         todo_list.innerHTML = "";
         [keys_normal, keys_pinned].forEach((keys) => {
-            if (this.sortMode.match("Lexico") !== null) {
+            if (this.sortMode.match("-") !== null) {
                 keys = keys.sort((a, b) => {
                     a = this.items[a].text.value;
                     b = this.items[b].text.value;
-                    if (a < b) { return this.sortMode === "Lexico" ? 1 : -1; }
-                    else if (a > b) { return this.sortMode === "Lexico" ? -1 : 1; }
-                    return 0;
+                    let result = a.localeCompare(b, 'en', {sensitivity: 'case'})
+                    return this.sortMode === "a - Z" ? -result : result;
                 });
             }
-            if (this.sortMode === "TimeInv") { keys = keys.reverse(); }
+            if (this.sortMode === "Oldest") { keys = keys.reverse(); }
             let nodes = keys.map(key => this.items[key].domNode);
 
             // render DOM list node
