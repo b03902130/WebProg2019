@@ -24,7 +24,7 @@ function List() {
         let keys = Object.keys(this.items);
         keys = keys.filter(this.view[this.renderMode]);
         if (this.searchMode) {
-            keys = keys.filter(key => this.items[key].text.value.match(todo_input.value) !== null);
+            keys = keys.filter(key => this.items[key].text.value.toUpperCase().match(todo_input.value.toUpperCase()) !== null);
         }
 
         keys_pinned = keys.filter(key => this.items[key].pinned);
