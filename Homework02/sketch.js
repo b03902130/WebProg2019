@@ -31,8 +31,10 @@ function preload() {
     wing = loadSound("./assets/audio/wing.wav");
     point = loadSound("./assets/audio/point.wav");
 
-    pipelow = loadImage("./assets/sprites/pipe-green-lower.png");
-    pipeup = loadImage("./assets/sprites/pipe-green-upper.png");
+    pipegreenlow = loadImage("./assets/sprites/pipe-green-lower.png");
+    pipegreenup = loadImage("./assets/sprites/pipe-green-upper.png");
+    piperedlow = loadImage("./assets/sprites/pipe-red-lower.png");
+    piperedup = loadImage("./assets/sprites/pipe-red-upper.png");
 }
 
 function plotScore(y, scale) {
@@ -63,6 +65,10 @@ function initGame() {
     pipey2 -= pipey2 / 2;
     pass1 = false;
     pass2 = false;
+
+    let green = Math.random() < 0.5;
+    pipeup = green ? pipegreenup : piperedup;
+    pipelow = green ? pipegreenlow : piperedlow;
 }
 
 function setup() {
