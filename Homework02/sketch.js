@@ -59,8 +59,8 @@ function initGame() {
     birdw = -4;
     pipex1 = width;
     pipex2 = width * 1.6;
-    pipey1 = Math.floor(Math.random() * 500);
-    pipey2 = Math.floor(Math.random() * 500);
+    pipey1 = Math.floor(Math.random() * 200);
+    pipey2 = Math.floor(Math.random() * 200);
     pipey1 -= pipey1 / 2;
     pipey2 -= pipey2 / 2;
     pass1 = false;
@@ -106,10 +106,12 @@ function scrollPipe() {
     pipex2 -= pipeScrollSpeed;
     if (pipex1 < -pipeup.width) {
         pipex1 = width;
+        pipey1 = Math.floor(Math.random() * 200);
         pass1 = false;
     }
     if (pipex2 < -pipeup.width) {
         pipex2 = width;
+        pipey2 = Math.floor(Math.random() * 200);
         pass2 = false;
     }
 }
