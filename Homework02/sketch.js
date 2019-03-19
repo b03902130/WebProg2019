@@ -10,6 +10,7 @@ const stateMode = ["Start", "Play", "End"];
 const birdColor = ["blue", "red", "yellow"];
 const flapMode = ["up", "mid", "down"];
 const bgScrollSpeed = 2;
+const pipeScrollSpeed = 3;
 
 function preload() {
     bgs = {
@@ -28,6 +29,10 @@ function preload() {
     die = loadSound("./assets/audio/die.wav");
     hit = loadSound("./assets/audio/hit.wav");
     wing = loadSound("./assets/audio/wing.wav");
+    point = loadSound("./assets/audio/point.wav");
+
+    pipelow = loadImage("./assets/sprites/pipe-green-lower.png");
+    pipeup = loadImage("./assets/sprites/pipe-green-upper.png");
 }
 
 function plotScore(y, scale) {
@@ -49,8 +54,15 @@ function initGame() {
     birdv = 0;
     birda = 0.2;
     birdr = 0;
-    birdw = 0;
-    birdwa = 0.01;
+    birdw = -4;
+    pipex1 = width;
+    pipex2 = width * 1.6;
+    pipey1 = Math.floor(Math.random() * 500);
+    pipey2 = Math.floor(Math.random() * 500);
+    pipey1 -= pipey1 / 2;
+    pipey2 -= pipey2 / 2;
+    pass1 = false;
+    pass2 = false;
 }
 
 function setup() {
@@ -65,6 +77,7 @@ function setup() {
     // setup code below
     bgx1 = 0;
     bgx2 = width;
+
     basey = height - base.height - birds[0][0].height * 1.5 / 2;
     angleMode(DEGREES);
     imageMode(CENTER);
@@ -82,6 +95,28 @@ function scrollBackground() {
     }
 }
 
+function scrollPipe() {
+    pipex1 -= pipeScrollSpeed;
+    pipex2 -= pipeScrollSpeed;
+    if (pipex1 < -pipeup.width) {
+        pipex1 = width;
+        pass1 = false;
+    }
+    if (pipex2 < -pipeup.width) {
+        pipex2 = width;
+        pass2 = false;
+    }
+}
+
+function detectPipe(bird_x, bird_y, pipe_x, pipe_y) {
+    if (bird_x >= pipe_x && bird_x <= pipe_x + pipeup.width * 1.2) {
+        if (bird_y <= -240 + pipe_y + pipeup.height * 1.2 || bird_y >= height - base.height - pipelow.height + 30 + pipe_y) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function draw() {
     // plot background
     if (state !== "End") {
@@ -90,8 +125,6 @@ function draw() {
     imageMode(CORNER);
     image(bg, bgx1, 0, width, height);
     image(bg, bgx2, 0, width, height);
-    image(base, bgx1, height - base.height, width, base.height);
-    image(base, bgx2, height - base.height, width, base.height);
     imageMode(CENTER);
 
     // plot game title
@@ -99,30 +132,24 @@ function draw() {
         image(start, width / 2, height / 2, width * 0.6, height * 0.6);
     }
 
+    if (state !== "Start") {
+        imageMode(CORNER);
+        image(pipeup, pipex1, -240 + pipey1, pipeup.width * 1.2, pipeup.height * 1.2);
+        image(pipelow, pipex1, height - base.height - pipelow.height + 30 + pipey1, pipelow.width * 1.2, pipelow.height * 1.2);
+        image(pipeup, pipex2, -240 + pipey2, pipeup.width * 1.2, pipeup.height * 1.2);
+        image(pipelow, pipex2, height - base.height - pipelow.height + 30 + pipey2, pipelow.width * 1.2, pipelow.height * 1.2);
+        imageMode(CENTER);
+    }
+
     // plot score
     if (state === "Play") {
+        scrollPipe();
         plotScore(height * 0.2, 1);
         if (birdy < basey) {
-            if (birdy + birdv > basey) {
-                birdy = basey;
-                birdv = 0;
-                birda = 0;
-                birdw = 0;
-                birdwa = 0;
-            }
-            else {
-                birdy += birdv;
-                birdv += birda;
-                birdr += birdw;
-                birdw += birdwa;
-            }
-            if (birdr < -30) {
-                birdr = -30;
-                birdw = 0;
-            }
-            if (birdr > 50) {
-                birdr = 50;
-                birdwa = 0;
+            birdy += birdv;
+            birdv += birda;
+            if (birdr <= 60) {
+                birdr -= birdw;
             }
         }
         else {
@@ -130,7 +157,33 @@ function draw() {
             hit.play();
             die.play();
         }
+
+        // detect hit pipe
+        let birdx = width / 2;
+        let hitpipe1 = detectPipe(birdx, birdy, pipex1, pipey1);
+        let hitpipe2 = detectPipe(birdx, birdy, pipex2, pipey2);
+        if (hitpipe1 || hitpipe2) {
+            state = "End";
+            hit.play();
+            die.play();
+        }
+
+        if (!pass1 && birdx > pipex1 + pipeup.width * 1.2) {
+            pass1 = true;
+            score += 1;
+            point.play()
+        }
+        if (!pass2 && birdx > pipex2 + pipeup.width * 1.2) {
+            pass2 = true;
+            score += 1;
+            point.play();
+        }
     }
+
+    imageMode(CORNER);
+    image(base, bgx1, height - base.height, width, base.height);
+    image(base, bgx2, height - base.height, width, base.height);
+    imageMode(CENTER);
 
     // plot bird
     if (state !== "End" && frameCount % 5 === 0) {
@@ -157,9 +210,8 @@ function keyPressed() {
         state = "Play";
     }
     else if (state === "Play") {
-        score += 1;
         birdv -= 5;
-        birdw -= 0.35;
+        birdr = -75;
     }
     else if (state === "End") {
         state = "Start";
