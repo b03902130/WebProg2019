@@ -25,6 +25,9 @@ function preload() {
             return loadImage(`./assets/sprites/${birdColor[birdType]}bird-${flapMode[flapType]}flap.png`);
         });
     });
+    die = loadSound("./assets/audio/die.wav");
+    hit = loadSound("./assets/audio/hit.wav");
+    wing = loadSound("./assets/audio/wing.wav");
 }
 
 function plotScore(y, scale) {
@@ -59,7 +62,6 @@ function setup() {
         cvsWrapper.offsetHeight
     );
     myCanvas.parent("canvasWrapper");
-
     // setup code below
     bgx1 = 0;
     bgx2 = width;
@@ -125,6 +127,8 @@ function draw() {
         }
         else {
             state = "End";
+            hit.play();
+            die.play();
         }
     }
 
@@ -147,6 +151,8 @@ function draw() {
 }
 
 function keyPressed() {
+    wing.play();
+
     if (state === "Start") {
         state = "Play";
     }
