@@ -13,7 +13,7 @@ class App extends Component {
     super(props);
     
     this.table = {
-      title: "Dynamic table",
+      title: "Dynamic table for easy row/column manipulation",
       header: ["Type1", "Type2", "Type3", "Type4"],
       content: [
         ["R1C1", "R1C2", "R1C3", "R1C4"],
@@ -29,7 +29,7 @@ class App extends Component {
         <Header priority="1" text="THIS IS LEO'S BLOG" />
         <Header priority="2" text="WARNING! MANY SECRETS!" />
         
-        <Header priority="4" text="It has been a busy week after the release of master exam result." />
+        <Header priority="4" text="It has been a busy week since the release of master exam result." />
         <Article text="Everything is like dream come true." />
 
         <Card img={cat} text="You can wrap anything you want in a link tag; here's an image for example." />
