@@ -1,5 +1,5 @@
 html {
-    background-image: url("https://i.imgur.com/p0KvEzS.png");
+    background-image: url("./paper.png");
 }
 
 body {
@@ -61,7 +61,7 @@ blockquote {
     padding-top: 5%;
     padding-bottom: 5%;
     background-clip: padding-box;
-    background-image: url("https://i.imgur.com/p0KvEzS.png");
+    background-image: url("./paper.png");
     box-shadow: inset 0 0 12px #a7a7a7;
     border-radius: 4px;
 }
@@ -87,7 +87,7 @@ input {
     border-radius: 4px;
     font-size: 1em;
     background-color: white;
-    background-image: url('https://i.imgur.com/OtvTovr.png');
+    background-image: url('./search.png');
     background-size: 1.9em;
     background-position: 3px 0px;
     background-repeat: no-repeat;
