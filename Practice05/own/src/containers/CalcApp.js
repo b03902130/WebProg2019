@@ -7,16 +7,46 @@ class CalcApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // TODO
+
     };
+    this.buttons = [
+      ["AC", "+/-", "%", "÷"],
+      ["7", "8", "9", "x"],
+      ["4", "5", "6", "-"],
+      ["1", "2", "3", "+"],
+      ["0", ".", "="]
+    ];
   }
 
   resetState() {
     // TODO
   }
 
-  showNotImplemented() {
-    console.warn('This function is not implemented yet.');
+  clickHandler = (e) => {
+    console.log("Not yet implement");
+  }
+
+  buttonRenderer(button, index) {
+    let classes = [];
+    if (button.match(/^[.0-9]$/)) {
+      classes.push("calc-number");
+      if (button === "0") {
+        classes.push("bigger-btn");
+      }
+    }
+    if (index === this.length - 1) {
+      classes.push("calc-operator");
+    }
+    return <CalcButton key={button} className={classes.join(" ")} onClick={this.clickHandler}>{button}</CalcButton>;
+  }
+
+  rowRenderer(row) {
+    let buttonRenderer = this.buttonRenderer.bind(row);
+    return (
+      <div key={row[0]} className="calc-row">
+        {row.map((button, index) => buttonRenderer(button, index))}
+      </div>
+    );
   }
 
   render() {
@@ -26,18 +56,7 @@ class CalcApp extends React.Component {
           <div className="calc-output">
             <div className="calc-display">1980</div>
           </div>
-          <div className="calc-row">
-            <CalcButton onClick={this.resetState}>AC</CalcButton>
-            <CalcButton onClick={this.showNotImplemented}>+/-</CalcButton>
-            <CalcButton onClick={this.showNotImplemented}>%</CalcButton>
-            <CalcButton className="calc-operator">÷</CalcButton>
-          </div>
-          <div className="calc-row">
-            <CalcButton className="calc-number">7</CalcButton>
-            <CalcButton className="calc-number">8</CalcButton>
-            <CalcButton className="calc-number">9</CalcButton>
-            <CalcButton className="calc-operator">x</CalcButton>
-          </div>
+          {this.buttons.map((row => this.rowRenderer(row)))}
         </div>
       </div>
     );

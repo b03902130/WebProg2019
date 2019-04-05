@@ -39,10 +39,6 @@
   font-weight: lighter;
 }
 
-.bigger-btn {
-  width: 120px;
-}
-
 .calc-number {
   background-color: #ffffff;
 }
@@ -50,6 +46,10 @@
 .calc-operator {
   color: white;
   background-color: #f58c00;
+}
+
+.bigger-btn {
+  width: 120px;
 }
 
 /* clearfix
