@@ -7,7 +7,8 @@ class CalcApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      display: "0",
+      stack: ["0"]
     };
     this.buttons = [
       ["AC", "+/-", "%", "÷"],
@@ -23,10 +24,11 @@ class CalcApp extends React.Component {
   }
 
   clickHandler = (e) => {
-    console.log("Not yet implement");
+    let text = e.target.textContent;
+
   }
 
-  buttonRenderer(button, index) {
+  buttonRenderer(button, index, length) {
     let classes = [];
     if (button.match(/^[.0-9]$/)) {
       classes.push("calc-number");
@@ -34,17 +36,16 @@ class CalcApp extends React.Component {
         classes.push("bigger-btn");
       }
     }
-    if (index === this.length - 1) {
+    if (index === length - 1) {
       classes.push("calc-operator");
     }
     return <CalcButton key={button} className={classes.join(" ")} onClick={this.clickHandler}>{button}</CalcButton>;
   }
 
   rowRenderer(row) {
-    let buttonRenderer = this.buttonRenderer.bind(row);
     return (
       <div key={row[0]} className="calc-row">
-        {row.map((button, index) => buttonRenderer(button, index))}
+        {row.map((button, index) => this.buttonRenderer(button, index, row.length))}
       </div>
     );
   }
@@ -54,7 +55,7 @@ class CalcApp extends React.Component {
       <div className="calc-app">
         <div className="calc-container">
           <div className="calc-output">
-            <div className="calc-display">1980</div>
+            <div className="calc-display">{this.state.display}</div>
           </div>
           {this.buttons.map((row => this.rowRenderer(row)))}
         </div>
