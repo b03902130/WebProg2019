@@ -75,8 +75,8 @@ class CalcApp extends React.Component {
       }
     }
     else if (input === "=") {
-      let newDisplay = (this.state.operands.length === 2 && this.state.operands[1] !== "") ? this.calculate(false) : this.state.operands[0];
       this.editable = false;
+      let newDisplay = (this.state.operands.length === 2 && this.state.operands[1] !== "") ? this.calculate(false) : this.state.operands[0];
       this.setState({
         display: newDisplay,
         operands: [newDisplay],
@@ -84,9 +84,7 @@ class CalcApp extends React.Component {
       });
     }
     else if (operators.indexOf(input) !== -1) {
-      if (!this.editable) {
-        this.editable = true;
-      }
+      this.editable = true;
       if (this.state.operands.length === 2) {
         if (this.state.operands[1] === "") {
           this.setState({
