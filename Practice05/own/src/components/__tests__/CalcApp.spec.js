@@ -231,7 +231,7 @@ it('1 + 2 = 3 = -> 5', () => {
 it('AC should clear state', () => {
   const app = mount(<CalcApp />);
 
-  const initialState = app.state();
+  const initialState = JSON.stringify(app.state());
 
   const rows = app.find('.calc-row');
   const row0 = rows.at(0);
@@ -243,6 +243,6 @@ it('AC should clear state', () => {
   btn7.simulate('click');
   AC.simulate('click');
 
-  expect(app.state()).toEqual(initialState);
+  expect(app.state()).toEqual(JSON.parse(initialState));
 });
 

@@ -14,7 +14,7 @@ class CalcApp extends React.Component {
       operator: ""
     };
     this.editable = true;
-    this.tmp = [];
+    this.previous = { operator: "", operand2: "" };
     this.buttons = [
       ["AC", "+/-", "%", operators[3]],
       ["7", "8", "9", operators[2]],
@@ -24,10 +24,10 @@ class CalcApp extends React.Component {
     ];
   }
 
-  calculate(tmp) {
+  calculate(previous) {
     let a = parseInt(this.state.operands[0]);
-    let b = tmp ? this.tmp[1] : parseInt(this.state.operands[1]);
-    let operator = tmp ? this.tmp[0] : this.state.operator;
+    let b = previous ? parseInt(this.previous.operand2) : parseInt(this.state.operands[1]);
+    let operator = previous ? this.previous.operator : this.state.operator;
     let result;
     if (operator === operators[0]) {
       result = a + b;
@@ -45,11 +45,10 @@ class CalcApp extends React.Component {
   }
 
   resetState() {
-    this.setState(state => {
-      return {
-        operands: [this.state.display],
-        operator: ""
-      };
+    this.setState({
+      display: "0",
+      operands: ["0"],
+      operator: ""
     });
   }
 
@@ -70,18 +69,35 @@ class CalcApp extends React.Component {
         this.setState({
           display: input,
           operands: [input],
-          operator: ""
         });
       }
     }
     else if (input === "=") {
       this.editable = false;
-      let newDisplay = (this.state.operands.length === 2 && this.state.operands[1] !== "") ? this.calculate(false) : this.state.operands[0];
-      this.setState({
-        display: newDisplay,
-        operands: [newDisplay],
-        operator: ""
-      });
+      if (this.state.operands.length === 2) {
+        let newDisplay, newOperator;
+        if (this.state.operands[1] === "") {
+          newDisplay = this.state.operands[0];
+          newOperator = "";
+        }
+        else {
+          newDisplay = this.calculate(false);
+          newOperator = "=";
+          this.previous = { operator: this.state.operator, operand2: this.state.operands[1] };
+        }
+        this.setState({
+          display: newDisplay,
+          operands: [newDisplay],
+          operator: newOperator
+        });
+      }
+      else if (this.state.operator === "=") {
+        let newDisplay = this.calculate(true);
+        this.setState({
+          display: newDisplay,
+          operands: [newDisplay],
+        });
+      }
     }
     else if (operators.indexOf(input) !== -1) {
       this.editable = true;
