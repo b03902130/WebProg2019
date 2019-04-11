@@ -11,7 +11,7 @@ export default class Blog extends Component {
       <div>
         <header id="header">
           <NavLink className="logo" to="/home">Home</NavLink>
-          <NavLink className="logo" to="/posts">Posts</NavLink>
+          <NavLink className="logo" to="/posts">All Posts</NavLink>
           <NavLink className="logo" to="/authors">Authors</NavLink>
         </header>
 
@@ -30,17 +30,17 @@ export default class Blog extends Component {
                 <p>Many many cute cats</p>
               </section>
               <section>
-                <h4>Sem turpis amet semper</h4>
+                <h4>Related links</h4>
                 <ul class="alt">
-                  <li><a href="#">Dolor pulvinar sed etiam.</a></li>
-                  <li><a href="#">Etiam vel lorem sed amet.</a></li>
+                  <li><a href="https://www.thatcatblog.com/">That cat blog</a></li>
+                  <li><a href="https://www.lovemeow.com/">Love meow</a></li>
                 </ul>
               </section>
               <section>
-                <h4>Magna sed ipsum</h4>
+                <h4>Contact</h4>
                 <ul class="plain">
-                  <li><a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
-                  <li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+                  <li><a href="https://twitter.com/leroay1994"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
+                  <li><a href="https://www.facebook.com/leo19941227"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
                 </ul>
               </section>
             </div>

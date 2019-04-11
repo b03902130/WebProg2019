@@ -23,7 +23,6 @@ export default class Posts extends Component {
                     <h1>POSTS</h1>
                 </div>
 
-
                 <section id="main" class="wrapper">
                     <div class="inner">
                         <div class="content">

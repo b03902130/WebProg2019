@@ -15,8 +15,8 @@ export default class Posts extends Component {
                 <section class="wrapper">
                     <div class="inner">
                         <header class="special">
-                            <h2>Sem turpis amet semper</h2>
-                            <p>In arcu accumsan ar</p>
+                            <h2>Quick Access</h2>
+                            <p>You can see our latest pictures here</p>
                         </header>
                         <div class="highlights">
                             <section>
