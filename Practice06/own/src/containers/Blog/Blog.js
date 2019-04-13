@@ -12,7 +12,6 @@ export default class Blog extends Component {
         <header id="header">
           <NavLink className="logo" to="/home">Home</NavLink>
           <NavLink className="logo" to="/posts">All Posts</NavLink>
-          <NavLink className="logo" to="/authors">Authors</NavLink>
         </header>
 
         <Switch>
@@ -23,24 +22,24 @@ export default class Blog extends Component {
         </Switch>
 
         <footer id="footer">
-          <div class="inner">
-            <div class="content">
+          <div className="inner">
+            <div className="content">
               <section>
-                <h3>CUTE CAT CO.</h3>
+                <h3>CUTE CAT CO. (CCC)</h3>
                 <p>Many many cute cats</p>
               </section>
               <section>
-                <h4>Related links</h4>
-                <ul class="alt">
+                <h4>Related blogs</h4>
+                <ul className="alt">
                   <li><a href="https://www.thatcatblog.com/">That cat blog</a></li>
                   <li><a href="https://www.lovemeow.com/">Love meow</a></li>
                 </ul>
               </section>
               <section>
                 <h4>Contact</h4>
-                <ul class="plain">
-                  <li><a href="https://twitter.com/leroay1994"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
-                  <li><a href="https://www.facebook.com/leo19941227"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+                <ul className="plain">
+                  <li><a href="https://twitter.com/leroay1994"><i className="icon fa-twitter">&nbsp;</i>Twitter</a></li>
+                  <li><a href="https://www.facebook.com/leo19941227"><i className="icon fa-facebook">&nbsp;</i>Facebook</a></li>
                 </ul>
               </section>
             </div>

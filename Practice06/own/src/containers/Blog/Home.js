@@ -1,78 +1,56 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import database from "../../database";
 
 export default class Posts extends Component {
+    constructor(props) {
+        super(props)
+        this.imgStyle = {
+            width: "100%",
+            marginBottom: "10px",
+            borderRadius: "5px"
+        };
+    }
+
     render() {
         return (
             <div>
                 <section id="banner">
-                    <div class="inner">
+                    <div className="inner">
                         <h1>MY CAT WEBSITE</h1>
                         <p>You can find many cute cats here, without a single dog.<br />No dog sorry.</p>
                     </div>
                 </section>
 
-                <section class="wrapper">
-                    <div class="inner">
-                        <header class="special">
-                            <h2>Quick Access</h2>
-                            <p>You can see our latest pictures here</p>
+                <section className="wrapper">
+                    <div className="inner">
+                        <header className="special">
+                            <h2>TOP 3 STORIES</h2>
                         </header>
-                        <div class="highlights">
-                            <section>
-                                <div class="content">
-                                    <header>
-                                        <a href="#" class="icon fa-vcard-o"><span class="label">Icon</span></a>
-                                        <h3>Feugiat consequat</h3>
-                                    </header>
-                                    <p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem</p>
-                                </div>
-                            </section>
-                            <section>
-                                <div class="content">
-                                    <header>
-                                        <a href="#" class="icon fa-files-o"><span class="label">Icon</span></a>
-                                        <h3>Ante sem integer</h3>
-                                    </header>
-                                    <p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem non</p>
-                                </div>
-                            </section>
-                            <section>
-                                <div class="content">
-                                    <header>
-                                        <a href="#" class="icon fa-floppy-o"><span class="label">Icon</span></a>
-                                        <h3>Ipsum consequat</h3>
-                                    </header>
-                                    <p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor s</p>
-                                </div>
-                            </section>
-                            <section>
-                                <div class="content">
-                                    <header>
-                                        <a href="#" class="icon fa-line-chart"><span class="label">Icon</span></a>
-                                        <h3>Interdum gravida</h3>
-                                    </header>
-                                    <p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttito</p>
-                                </div>
-                            </section>
-                            <section>
-                                <div class="content">
-                                    <header>
-                                        <a href="#" class="icon fa-paper-plane-o"><span class="label">Icon</span></a>
-                                        <h3>Faucibus consequat</h3>
-                                    </header>
-                                    <p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem non </p>
-                                </div>
-                            </section>
-                            <section>
-                                <div class="content">
-                                    <header>
-                                        <a href="#" class="icon fa-qrcode"><span class="label">Icon</span></a>
-                                        <h3>Accumsan viverra</h3>
-                                    </header>
-                                    <p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem non mi int</p>
-                                </div>
-                            </section>
+                        <div className="highlights">
+                            {
+                                database.ranking.slice(0,3).map(rank => {
+                                    let record = database.table[rank];
+                                    let short = record.description[0].split(" ");
+                                    if (short.length > 30) {
+                                        short = short.slice(0, 30);
+                                        short.push("...");
+                                    }
+                                    return (
+                                        <section key={record.id}>
+                                            <div className="content">
+                                                <header>
+                                                    <NavLink to={"/posts/" + record.id}>
+                                                        <img alt="cat" src={record.imgsrc} style={this.imgStyle} />
+                                                    </NavLink>
+                                                    <h3>{record.title}</h3>
+                                                </header>
+                                                <p>{short.join(" ")}</p>
+                                            </div>
+                                        </section>
+                                    );
+                                })
+                            }
                         </div>
                     </div>
                 </section>
