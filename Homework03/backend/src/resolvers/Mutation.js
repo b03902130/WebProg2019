@@ -1,7 +1,7 @@
 import uuidv4 from 'uuid/v4'
 
 const Mutation = {
-  createUser(parent, args, { db }, info) {
+  createUser(parent, args, { db, pubsub }, info) {
     const emailTaken = db.users.some(user => user.email === args.data.email)
 
     if (emailTaken) {
@@ -14,6 +14,13 @@ const Mutation = {
     }
 
     db.users.push(user)
+    
+    pubsub.publish('user', {
+      user: {
+        mutation: 'CREATED',
+        data: user
+      }
+    })
 
     return user
   },

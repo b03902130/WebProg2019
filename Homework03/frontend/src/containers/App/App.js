@@ -16,7 +16,8 @@ import {
   POSTS_QUERY,
   USERS_QUERY,
   CREATE_POST_MUTATION,
-  POSTS_SUBSCRIPTION
+  POSTS_SUBSCRIPTION,
+  USERS_SUBSCRIPTION,
 } from '../../graphql'
 import Post from '../../components/Post/Post'
 import classes from './App.module.css'
@@ -46,7 +47,7 @@ class App extends Component {
         title: formTitle,
         body: formBody,
         published: true,
-        authorId: parseInt(formAuthorId),
+        authorId: formAuthorId,
       }
     })
 
@@ -60,7 +61,7 @@ class App extends Component {
   
   toggle = (err) => {
     if (err.target.id !== 'toggle_button') {
-      let name = err.target.innerHTML
+      let name = err.target.innerText
       let id = err.target.id
       this.setState(prevState => ({
         dropdownOpen: !prevState.dropdownOpen,
@@ -91,6 +92,42 @@ class App extends Component {
 
                 return (
                   <Form onSubmit={this.handleFormSubmit}>
+                    <Query query={USERS_QUERY}>
+                      {({ loading, error, data, subscribeToMore }) => {
+                        if (loading) return <p>Loading...</p>
+                        if (error) return <p>Error :(((</p>
+
+                        const users = (
+                          <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                            <DropdownToggle id='toggle_button' caret>
+                              {this.state.formAuthorName}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                            {
+                              data.users.map((user, id) => (
+                                <DropdownItem id={user.id}>{user.name}</DropdownItem>
+                              ))
+                            }
+                            </DropdownMenu>
+                          </Dropdown>
+                        )
+                        if (!unsubscribe_user)
+                          unsubscribe_user = subscribeToMore({
+                            document: USERS_SUBSCRIPTION,
+                            updateQuery: (prev, { subscriptionData }) => {
+                              if (!subscriptionData.data) return prev
+                              const newUser = subscriptionData.data.user.data
+
+                              return {
+                                ...prev,
+                                users: [newUser, ...prev.users]
+                              }
+                            }
+                          })
+
+                        return <div>{users}</div>
+                      }}
+                    </Query>
                     <FormGroup row>
                       <Label for="title" sm={2}>
                         Title
@@ -120,42 +157,6 @@ class App extends Component {
                         }
                       />
                     </FormGroup>
-                    <Query query={USERS_QUERY}>
-                      {({ loading, error, data, subscribeToMore }) => {
-                        if (loading) return <p>Loading...</p>
-                        if (error) return <p>Error :(((</p>
-
-                        const users = (
-                          <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                            <DropdownToggle id='toggle_button' caret>
-                              {this.state.formAuthorName}
-                            </DropdownToggle>
-                            <DropdownMenu>
-                            {
-                              data.users.map((user, id) => (
-                                <DropdownItem id={user.id}>{user.name}</DropdownItem>
-                              ))
-                            }
-                            </DropdownMenu>
-                          </Dropdown>
-                        )
-                        {/* if (!unsubscribe) */}
-                        {/*   unsubscribe = subscribeToMore({ */}
-                        {/*     document: POSTS_SUBSCRIPTION, */}
-                        {/*     updateQuery: (prev, { subscriptionData }) => { */}
-                        {/*       if (!subscriptionData.data) return prev */}
-                        {/*       const newPost = subscriptionData.data.post.data */}
-
-                        {/*       return { */}
-                        {/*         ...prev, */}
-                        {/*         posts: [newPost, ...prev.posts] */}
-                        {/*       } */}
-                        {/*     } */}
-                        {/*   }) */}
-
-                        return <div>{users}</div>
-                      }}
-                    </Query>
                     <Button type="submit" color="primary">
                       Post!
                     </Button>
