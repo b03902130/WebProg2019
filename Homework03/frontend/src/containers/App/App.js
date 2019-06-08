@@ -10,9 +10,11 @@ import {
   Input,
   Button
 } from 'reactstrap'
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import {
   POSTS_QUERY,
+  USERS_QUERY,
   CREATE_POST_MUTATION,
   POSTS_SUBSCRIPTION
 } from '../../graphql'
@@ -20,33 +22,57 @@ import Post from '../../components/Post/Post'
 import classes from './App.module.css'
 
 let unsubscribe = null
+let unsubscribe_user = null
 
 class App extends Component {
   state = {
     formTitle: '',
-    formBody: ''
+    formBody: '',
+    formAuthorName: 'Select Author',
+    formAuthorId: '',
+
+    dropdownOpen: false
   }
 
   handleFormSubmit = e => {
     e.preventDefault()
 
-    const { formTitle, formBody } = this.state
+    const { formTitle, formBody, formAuthorId } = this.state
 
-    if (!formTitle || !formBody) return
+    if (!formTitle || !formBody || !formAuthorId) return
 
     this.createPost({
       variables: {
         title: formTitle,
         body: formBody,
         published: true,
-        authorId: 2
+        authorId: parseInt(formAuthorId),
       }
     })
 
     this.setState({
       formTitle: '',
-      formBody: ''
+      formBody: '',
+      formAuthorId: '',
+      formAuthorName: 'Select Author'
     })
+  }
+  
+  toggle = (err) => {
+    if (err.target.id !== 'toggle_button') {
+      let name = err.target.innerHTML
+      let id = err.target.id
+      this.setState(prevState => ({
+        dropdownOpen: !prevState.dropdownOpen,
+        formAuthorName: name,
+        formAuthorId: id,
+      }));
+    }
+    else {
+      this.setState(prevState => ({
+        dropdownOpen: !prevState.dropdownOpen,
+      }));
+    }
   }
 
   render() {
@@ -94,6 +120,42 @@ class App extends Component {
                         }
                       />
                     </FormGroup>
+                    <Query query={USERS_QUERY}>
+                      {({ loading, error, data, subscribeToMore }) => {
+                        if (loading) return <p>Loading...</p>
+                        if (error) return <p>Error :(((</p>
+
+                        const users = (
+                          <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                            <DropdownToggle id='toggle_button' caret>
+                              {this.state.formAuthorName}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                            {
+                              data.users.map((user, id) => (
+                                <DropdownItem id={user.id}>{user.name}</DropdownItem>
+                              ))
+                            }
+                            </DropdownMenu>
+                          </Dropdown>
+                        )
+                        {/* if (!unsubscribe) */}
+                        {/*   unsubscribe = subscribeToMore({ */}
+                        {/*     document: POSTS_SUBSCRIPTION, */}
+                        {/*     updateQuery: (prev, { subscriptionData }) => { */}
+                        {/*       if (!subscriptionData.data) return prev */}
+                        {/*       const newPost = subscriptionData.data.post.data */}
+
+                        {/*       return { */}
+                        {/*         ...prev, */}
+                        {/*         posts: [newPost, ...prev.posts] */}
+                        {/*       } */}
+                        {/*     } */}
+                        {/*   }) */}
+
+                        return <div>{users}</div>
+                      }}
+                    </Query>
                     <Button type="submit" color="primary">
                       Post!
                     </Button>
