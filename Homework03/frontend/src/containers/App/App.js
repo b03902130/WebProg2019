@@ -105,7 +105,7 @@ class App extends Component {
                             <DropdownMenu>
                             {
                               data.users.map((user, id) => (
-                                <DropdownItem id={user.id}>{user.name}</DropdownItem>
+                                <DropdownItem id={user.id} key={user.id}>{user.name}</DropdownItem>
                               ))
                             }
                             </DropdownMenu>
