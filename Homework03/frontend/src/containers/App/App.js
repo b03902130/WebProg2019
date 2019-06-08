@@ -170,9 +170,25 @@ class App extends Component {
               {({ loading, error, data, subscribeToMore }) => {
                 if (loading) return <p>Loading...</p>
                 if (error) return <p>Error :(((</p>
+                
+                let posts = data.posts
+                posts.sort((a, b) => {
+                  return a.author.name < b.author.name ? -1 : 1
+                })
 
-                const posts = data.posts.map((post, id) => (
-                  <Post data={post} key={id} />
+                let authors = {}
+                for (let post of posts) {
+                  let authorname = post.author.name
+                  if (authorname in authors) {
+                    authors[authorname].push(post)
+                  }
+                  else {
+                    authors[authorname] = [post]
+                  }
+                }
+
+                let author_cards = Object.keys(authors).map((name) => (
+                  <Post name={name} posts={authors[name]} />
                 ))
                 if (!unsubscribe)
                   unsubscribe = subscribeToMore({
@@ -188,7 +204,7 @@ class App extends Component {
                     }
                   })
 
-                return <div>{posts}</div>
+                return <div>{author_cards}</div>
               }}
             </Query>
           </Col>
