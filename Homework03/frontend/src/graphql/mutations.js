@@ -59,3 +59,20 @@ export const UPDATE_POST_MUTATION = gql`
     }
   }
 `
+
+export const CREATE_USER_MUTATION = gql`
+  mutation createUser(
+    $name: String!
+    $email: String!
+  ) {
+    createUser(
+      data: {
+        name: $name
+        email: $email
+      }
+    ) {
+      id
+      name
+    }
+  }
+`
