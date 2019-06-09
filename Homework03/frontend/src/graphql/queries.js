@@ -3,6 +3,7 @@ import { gql } from 'apollo-boost'
 export const POSTS_QUERY = gql`
   query {
     posts {
+      id
       title
       body
       author {

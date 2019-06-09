@@ -5,6 +5,7 @@ export const POSTS_SUBSCRIPTION = gql`
     post {
       mutation
       data {
+        id
         title
         body
         author {

@@ -192,10 +192,22 @@ class App extends Component {
                     updateQuery: (prev, { subscriptionData }) => {
                       if (!subscriptionData.data) return prev
                       const newPost = subscriptionData.data.post.data
-
-                      return {
-                        ...prev,
-                        posts: [newPost, ...prev.posts]
+                      const mutation = subscriptionData.data.post.mutation
+                      if (mutation === 'CREATED') {
+                        return {
+                          ...prev,
+                          posts: [newPost, ...prev.posts]
+                        }
+                      }
+                      else if (mutation === 'UPDATED') {
+                        let postRef = prev.posts.find(post => post.id === newPost.id)
+                        for (let key in newPost) {
+                          postRef[key] = newPost[key]
+                        }
+                        return {
+                          ...prev,
+                          posts: prev.posts
+                        }
                       }
                     }
                   })

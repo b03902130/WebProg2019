@@ -15,12 +15,47 @@ export const CREATE_POST_MUTATION = gql`
         author: $authorId
       }
     ) {
+      id
       title
       body
       author {
         name
       }
-      published
+      comments {
+        text
+        author {
+          name
+        }
+      }
+      like
+    }
+  }
+`
+
+export const UPDATE_POST_MUTATION = gql`
+  mutation updatePost(
+    $id: ID!
+    $like: Int!
+  ) {
+    updatePost(
+      id: $id
+      data: {
+        like: $like
+      }
+    ) {
+      id
+      title
+      body
+      author {
+        name
+      }
+      comments {
+        text
+        author {
+          name
+        }
+      }
+      like
     }
   }
 `

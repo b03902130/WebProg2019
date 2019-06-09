@@ -47,6 +47,7 @@ input UpdatePostInput {
   title: String
   body: String
   published: Boolean
+  like: Int
 }
 
 input CreateCommentInput {

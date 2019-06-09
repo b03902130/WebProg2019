@@ -140,6 +140,10 @@ const Mutation = {
       post.body = data.body
     }
 
+    if (typeof data.like === 'number') {
+      post.like += data.like
+    }
+
     if (typeof data.published === 'boolean') {
       post.published = data.published
 
