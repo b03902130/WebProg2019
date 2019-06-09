@@ -60,7 +60,7 @@ class App extends Component {
   }
   
   toggle = (err) => {
-    if (err.target.id !== 'toggle_button') {
+    if ('dropdown-item' === err.target.className) {
       let name = err.target.innerText
       let id = err.target.id
       this.setState(prevState => ({
@@ -125,7 +125,7 @@ class App extends Component {
                             }
                           })
 
-                        return <div style={{margin: '20px 0'}}>{users}</div>
+                        return <div style={{margin: '30px 0'}}>{users}</div>
                       }}
                     </Query>
                     <FormGroup row>
