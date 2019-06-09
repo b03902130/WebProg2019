@@ -15,27 +15,33 @@ class Post extends Component {
   
   render() {
     return (
-      <Card style={{ margin: '30px auto', width: '400px' }}>
-        <CardHeader>{this.props.name}</CardHeader>
-        <CardBody>
-          <p>{this.props.posts.length} posts</p>
-          <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>{this.state.collapse ? 'less' : 'more'}</Button>
-          <Collapse isOpen={this.state.collapse}>
+      <div>
+        <Card outline color='info' style={{ margin: '30px auto', width: '400px' }}>
+          <CardHeader>{this.props.post.title}</CardHeader>
+          <CardBody>
+            <p>{this.props.post.body}</p>
+          </CardBody>
+          <CardFooter>
             {
-              this.props.posts.map(post => (
-                <Card style={{ margin: '30px auto', width: '100%' }}>
-                  <CardHeader>{post.title}</CardHeader>
-                  <CardBody>{post.body}</CardBody>
-                  <CardFooter>
-                    <span>{`3 Like`}</span>
-                    <button>like</button>
-                  </CardFooter>
-                </Card>
-              ))  
+              this.props.post.comments.length > 0 && 
+                <Button size='sm' color='info' onClick={this.toggle} style={{ marginBottom: '1rem' }}>{this.state.collapse ? 'hide comments' : 'show comments'}</Button>
             }
-          </Collapse>
-        </CardBody>
-      </Card>
+            <span style={{display: 'inline-box', marginLeft: '15px'}}>{this.props.post.comments.length} comments, 3 like</span>
+          </CardFooter>
+        </Card>
+        <Collapse isOpen={this.state.collapse}>
+          {
+            this.props.post.comments.map(comment => (
+              <Card style={{ margin: '0px auto', width: '400px' }}>
+                <CardBody>{comment.text}</CardBody>
+                <CardFooter>
+                  <span>{comment.author.name}</span>
+                </CardFooter>
+              </Card>
+            ))  
+          }
+        </Collapse>
+      </div>
     )
   }
 }

@@ -8,7 +8,12 @@ export const POSTS_QUERY = gql`
       author {
         name
       }
-      published
+      comments {
+        text
+        author {
+          name
+        }
+      }
     }
   }
 `

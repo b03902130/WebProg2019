@@ -19,7 +19,7 @@ import {
   POSTS_SUBSCRIPTION,
   USERS_SUBSCRIPTION,
 } from '../../graphql'
-import Post from '../../components/Post/Post'
+import Author from '../../components/Author/Author'
 import classes from './App.module.css'
 
 let unsubscribe = null
@@ -125,7 +125,7 @@ class App extends Component {
                             }
                           })
 
-                        return <div>{users}</div>
+                        return <div style={{margin: '20px 0'}}>{users}</div>
                       }}
                     </Query>
                     <FormGroup row>
@@ -188,7 +188,7 @@ class App extends Component {
                 }
 
                 let author_cards = Object.keys(authors).map((name) => (
-                  <Post name={name} posts={authors[name]} />
+                  <Author name={name} posts={authors[name]} />
                 ))
                 if (!unsubscribe)
                   unsubscribe = subscribeToMore({

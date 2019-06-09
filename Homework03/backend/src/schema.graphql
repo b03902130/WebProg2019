@@ -75,6 +75,7 @@ type Post {
   published: Boolean!
   author: User!
   comments: [Comment!]!
+  like: Int
 }
 
 type Comment {
