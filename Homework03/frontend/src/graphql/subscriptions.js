@@ -10,7 +10,13 @@ export const POSTS_SUBSCRIPTION = gql`
         author {
           name
         }
-        published
+        comments {
+          text
+          author {
+            name
+          }
+        }
+        like
       }
     }
   }

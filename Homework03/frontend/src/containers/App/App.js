@@ -172,10 +172,6 @@ class App extends Component {
                 if (error) return <p>Error :(((</p>
                 
                 let posts = data.posts
-                posts.sort((a, b) => {
-                  return a.author.name < b.author.name ? -1 : 1
-                })
-
                 let authors = {}
                 for (let post of posts) {
                   let authorname = post.author.name

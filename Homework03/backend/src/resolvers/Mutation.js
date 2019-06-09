@@ -83,7 +83,9 @@ const Mutation = {
 
     const post = {
       id: uuidv4(),
-      ...args.data
+      ...args.data,
+      like: 0,
+      comments: []
     }
 
     db.posts.unshift(post)

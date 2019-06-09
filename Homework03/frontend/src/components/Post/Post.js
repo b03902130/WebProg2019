@@ -26,7 +26,7 @@ class Post extends Component {
               this.props.post.comments.length > 0 && 
                 <Button size='sm' color='info' onClick={this.toggle} style={{ marginBottom: '1rem' }}>{this.state.collapse ? 'hide comments' : 'show comments'}</Button>
             }
-            <span style={{display: 'inline-box', marginLeft: '15px'}}>{this.props.post.comments.length} comments, 3 like</span>
+            <span style={{display: 'inline-box', marginLeft: '15px'}}>{this.props.post.comments.length} comments, {this.props.post.like} like</span>
           </CardFooter>
         </Card>
         <Collapse isOpen={this.state.collapse}>
