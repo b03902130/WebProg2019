@@ -42,7 +42,7 @@ class Post extends Component {
               {
                 updatePost => {
                   this.updatePost = updatePost
-                  return <Button id={this.props.post.id} style={{marginRight: '15px'}} size='sm' color='primary' onClick={this.handleLike}>Like</Button>
+                  return <Button id={this.props.post.id} style={{marginRight: '15px'}} size='sm' color='info' onClick={this.handleLike}>Like</Button>
                 }
               }
             </Mutation>
